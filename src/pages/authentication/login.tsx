@@ -10,10 +10,19 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Link } from "react-router";
+
 export function Login({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
+
+  function handleSubmit(form: HTMLFormElement) {
+    const formData = new FormData(form);
+
+    console.log(formData.get('email'))
+  }
+
+
   return (
     <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
       <div className="w-full max-w-sm">
@@ -26,7 +35,12 @@ export function Login({
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <form>
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  handleSubmit(e.currentTarget)
+                }}
+              >
                 <div className="flex flex-col gap-6">
                   <div className="grid gap-2">
                     <Label htmlFor="email">Email</Label>
@@ -34,6 +48,7 @@ export function Login({
                       id="email"
                       type="email"
                       placeholder="m@example.com"
+                      name="email"
                       required
                     />
                   </div>
