@@ -55,7 +55,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     const logout = async () => {
         try {
-            await axios.post('/logout', {}, { withCredentials: true });
+            await request('POST', 'http://api.ujik.web:8000/logout');
             setUser(null);
         } catch (err) {
             console.error('Logout error:', err);
@@ -70,6 +70,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     useEffect(() => {
         if (user && ["/login", "/register"].includes(location.pathname)) {
             navigate("/dashboard");
+        }
+
+        if (!user && ["/dashboard"].includes(location.pathname)) {
+            navigate("/login");
         }
     }, [user]);
 
