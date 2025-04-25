@@ -41,7 +41,7 @@ export function Login({
       await request('POST', 'http://api.ujik.web:8000/login', Object.fromEntries(formData));
       // Fetch user data
       const userResponse = await request('GET', 'http://api.ujik.web:8000/api/user');
-      toast.success('Login success', { style: { backgroundColor: 'green' } });
+      toast.success('Login success', { style: { backgroundColor: 'var(--success)' } });
       setUser(userResponse.data);
 
     } catch (error) {
