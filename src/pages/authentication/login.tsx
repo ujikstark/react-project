@@ -10,23 +10,56 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Link } from "react-router";
+import { useState } from "react"
+import { request } from "@/common/helpers/request"
+import { useAuth } from "@/contexts/auth-context"
+import { AxiosError } from "axios"
+import { GenericValidationBag } from "@/common/interfaces/validation-bag"
+import { LoginValidation } from "./common/validation-interface"
 
 export function Login({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
 
-  function handleSubmit(form: HTMLFormElement) {
+  const [message, setMessage] = useState<string | undefined>(undefined);
+  const [errors, setErrors] = useState<LoginValidation | undefined>(undefined);
+  const [isFormBusy, setIsFormBusy] = useState(false);
+
+  const { setUser } = useAuth();
+
+  async function handleSubmit(form: HTMLFormElement) {
+
     const formData = new FormData(form);
 
-    console.log(formData.get('email'))
+    setMessage(undefined);
+    setErrors(undefined);
+    setIsFormBusy(true);
+
+    try {
+      await request('POST', 'http://api.ujik.web:8000/login', Object.fromEntries(formData));
+      // Fetch user data
+      const userResponse = await request('GET', 'http://api.ujik.web:8000/api/user')
+      setUser(userResponse.data);
+
+    } catch (error) {
+      setMessage(error.response?.data.message ?? 'Invalid credentials');
+      setIsFormBusy(false);
+    }
+
+
+
+
   }
+
 
 
   return (
     <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
       <div className="w-full max-w-sm">
         <div className={cn("flex flex-col gap-6", className)} {...props}>
+          {message ? <div style={{ color: 'var(--destructive)' }}>Error: {message}</div> : ''}
+
           <Card>
             <CardHeader>
               <CardTitle className="text-2xl">Login</CardTitle>
@@ -62,9 +95,9 @@ export function Login({
                         Forgot your password?
                       </a>
                     </div>
-                    <Input id="password" type="password" required />
+                    <Input id="password" type="password" name="password" required />
                   </div>
-                  <Button type="submit" className="w-full">
+                  <Button disabled={isFormBusy} type="submit" className="w-full">
                     Login
                   </Button>
                   <Button variant="outline" className="w-full">

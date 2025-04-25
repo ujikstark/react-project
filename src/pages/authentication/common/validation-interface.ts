@@ -4,3 +4,8 @@ export interface RegisterValidation {
     password?: string[];
     password_confirmation?: string[];
 }
+
+export interface LoginValidation {
+    email?: string[];
+    password?: string[];
+}
