@@ -41,7 +41,6 @@ export function Register({
             setErrors(undefined);
             setIsFormBusy(true);
 
-
             if (values.password !== values.password_confirmation) {
                 setIsFormBusy(false);
 
@@ -53,19 +52,26 @@ export function Register({
                 return;
             }
 
-            // 1. Get CSRF cookie (important for Sanctum)
-            await request('GET', 'http://api.ujik.web:8000/sanctum/csrf-cookie');
+            try {
+                // 1. Get CSRF cookie (important for Sanctum)
+                await request('GET', 'http://api.ujik.web:8000/sanctum/csrf-cookie');
 
-            // 2. Submit registration data
-            await request('POST', 'http://api.ujik.web:8000/register', { ...values });
+                // 2. Submit registration data
+                await request('POST', 'http://api.ujik.web:8000/register', { ...values });
 
-            await request('POST', 'http://api.ujik.web:8000/login', { ...values });
+                await request('POST', 'http://api.ujik.web:8000/login', { ...values });
 
-            // 3. Fetch user data
-            const userResponse = await request('GET', 'http://api.ujik.web:8000/api/user');
+                // 3. Fetch user data
+                const userResponse = await request('GET', 'http://api.ujik.web:8000/api/user');
 
-            // 4. Save user to context
-            setUser(userResponse.data);
+                // 4. Save user to context
+                setUser(userResponse.data);
+
+            } catch (error) {
+                setMessage(error.response?.data.message ?? 'Invalid');
+                setIsFormBusy(false);
+            }
+
 
 
         },
