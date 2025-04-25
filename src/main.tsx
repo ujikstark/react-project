@@ -6,17 +6,20 @@ import App from './App.tsx'
 import { Register } from './pages/authentication/register.tsx';
 import { Login } from './pages/authentication/login.tsx';
 import { Dashboard } from './pages/dashboard/dashboard.tsx';
+import { AuthProvider } from './contexts/auth-context.tsx';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<App />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+      <AuthProvider>
+        <Routes>
+          <Route path="/" element={<App />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/dashboard" element={<Dashboard />} />
 
-      </Routes>
+        </Routes>
+      </AuthProvider>
     </BrowserRouter>
   </StrictMode>,
 )

@@ -15,8 +15,7 @@ import { request } from "@/common/helpers/request"
 import { RegisterForm } from '@/common/dtos/authentication';
 import { useState } from 'react';
 import { RegisterValidation } from './common/validation-interface';
-import { AxiosError } from 'axios';
-import { GenericValidationBag } from '@/common/interfaces/validation-bag';
+import { useAuth } from '@/contexts/auth-context';
 
 export function Register({
     className,
@@ -27,6 +26,7 @@ export function Register({
     );
     const [isFormBusy, setIsFormBusy] = useState(false);
     const [message, setMessage] = useState('');
+    const { setUser } = useAuth();
 
     const form = useFormik({
         initialValues: {
@@ -53,34 +53,23 @@ export function Register({
                 return;
             }
 
-            await request('GET', 'http://localhost:8000/sanctum/csrf-cookie').then((response) => { console.log(response) });
+            // 1. Get CSRF cookie (important for Sanctum)
+            await request('GET', 'http://api.ujik.web:8000/sanctum/csrf-cookie');
 
+            // 2. Submit registration data
+            await request('POST', 'http://api.ujik.web:8000/register', { ...values });
 
-            request('POST', 'http://localhost:8000/register', { ...values })
-                .then((response) => console.log(response))
-                .catch(
-                    (error: AxiosError<GenericValidationBag<RegisterValidation>>) => {
-                        if (error.response?.status === 422) {
-                            setErrors(error.response.data.errors);
-                        }
+            await request('POST', 'http://api.ujik.web:8000/login', { ...values });
 
-                        setMessage(error.response?.data.message as string);
-                        setIsFormBusy(false);
-                    }
-                )
+            // 3. Fetch user data
+            const userResponse = await request('GET', 'http://api.ujik.web:8000/api/user');
+
+            // 4. Save user to context
+            setUser(userResponse.data);
 
 
         },
     });
-
-
-    function register(form: HTMLFormElement) {
-        const formData = new FormData(form);
-
-        // console.log(formData.get('email'))
-        request('GET', 'http://localhost:8000/sanctum/csrf-cookie').then((response) => { console.log(response) });
-        request('POST', 'http://localhost:8000/register', Object.fromEntries(formData)).then((response) => console.log(response));
-    }
 
 
     return (
@@ -158,7 +147,7 @@ export function Register({
                                         {errors?.password_confirmation ? <div style={{ color: 'var(--destructive)' }}>{errors.password_confirmation}</div> : ''}
 
                                     </div>
-                                    <Button type="submit" className="w-full">
+                                    <Button disabled={isFormBusy} type="submit" className="w-full">
                                         Register
                                     </Button>
 
