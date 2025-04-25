@@ -8,6 +8,7 @@ import {
 import axios from 'axios';
 import { request } from '@/common/helpers/request';
 import { useNavigate } from "react-router-dom"
+import { Toaster } from '@/components/ui/sonner';
 
 type User = {
     id: number;
@@ -89,6 +90,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     return (
         <AuthContext.Provider value={{ user, loading, fetchUser, logout, setUser }}>
             {children}
+            <Toaster />
         </AuthContext.Provider>
     );
 };

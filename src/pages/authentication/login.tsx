@@ -16,6 +16,7 @@ import { useAuth } from "@/contexts/auth-context"
 import { AxiosError } from "axios"
 import { GenericValidationBag } from "@/common/interfaces/validation-bag"
 import { LoginValidation } from "./common/validation-interface"
+import { toast } from "sonner"
 
 export function Login({
   className,
@@ -39,7 +40,8 @@ export function Login({
     try {
       await request('POST', 'http://api.ujik.web:8000/login', Object.fromEntries(formData));
       // Fetch user data
-      const userResponse = await request('GET', 'http://api.ujik.web:8000/api/user')
+      const userResponse = await request('GET', 'http://api.ujik.web:8000/api/user');
+      toast.success('Login success', { style: { backgroundColor: 'green' } });
       setUser(userResponse.data);
 
     } catch (error) {
