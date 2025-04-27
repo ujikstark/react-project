@@ -21,7 +21,10 @@ export function Dashboard() {
                                 {/* <ChartAreaInteractive /> */}
                             </div>
                             {/* <DataTable data={data} /> */}
-                            <DemoPage />
+
+                            <div className="px-4 lg:px-6">
+                                <DemoPage />
+                            </div>
                         </div>
                     </div>
                 </div>
