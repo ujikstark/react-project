@@ -68,15 +68,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }, []);
 
     // Redirect if user is logged in and on login/register
-    useEffect(() => {
-        if (user && ["/login", "/register"].includes(location.pathname)) {
-            navigate("/dashboard");
-        }
+    // useEffect(() => {
+    //     if (user && ["/login", "/register"].includes(location.pathname)) {
+    //         navigate("/dashboard");
+    //     }
 
-        if (!user && ["/dashboard"].includes(location.pathname)) {
-            navigate("/login");
-        }
-    }, [user]);
+    //     if (!user && ["/dashboard"].includes(location.pathname)) {
+    //         navigate("/login");
+    //     }
+    // }, [user]);
 
     if (loading) {
         return (
@@ -90,7 +90,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     return (
         <AuthContext.Provider value={{ user, loading, fetchUser, logout, setUser }}>
             {children}
-            <Toaster />
         </AuthContext.Provider>
     );
 };

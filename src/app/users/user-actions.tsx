@@ -13,6 +13,7 @@ import { MoreHorizontal } from "lucide-react"
 import { User } from "./columns"
 import { toast } from "sonner"
 import { request } from "@/common/helpers/request"
+import { useNavigate } from "react-router-dom"
 
 interface UserActionsProps {
     user: User,
@@ -21,6 +22,8 @@ interface UserActionsProps {
 
 export function UserActions({ user, fetchUsers }: UserActionsProps) {
     const [open, setOpen] = useState(false);
+
+    const navigate = useNavigate();
 
 
     const deleteUser = async (id) => {
@@ -56,7 +59,7 @@ export function UserActions({ user, fetchUsers }: UserActionsProps) {
                 <DropdownMenuContent align="end">
                     <DropdownMenuLabel>Actions</DropdownMenuLabel>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem>Details</DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => navigate(`/users/${user.id}`)}>Details</DropdownMenuItem>
                     <DropdownMenuItem>Edit</DropdownMenuItem>
                     <DropdownMenuItem onClick={() => setOpen(true)}>Delete</DropdownMenuItem>
                 </DropdownMenuContent>

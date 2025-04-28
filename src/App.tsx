@@ -1,9 +1,11 @@
-import { Button } from "@/components/ui/button"
+import { Toaster } from "./components/ui/sonner"
+import { routes } from './common/routes';
 
 function App() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-svh">
-      <Button size="lg" className="bg-success">Click me</Button>
+    <div className="App">
+      <Toaster position="top-center" />
+      {routes}
     </div>
   )
 }
