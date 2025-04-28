@@ -1,29 +1,36 @@
-import { AppSidebar } from "@/pages/dashboard/components/app-sidebar"
-import { ChartAreaInteractive } from "@/pages/dashboard/components/chart-area-interactive"
-import { DataTable } from "@/pages/dashboard/components/data-table"
-import { SectionCards } from "@/pages/dashboard/components/section-cards"
-import { SiteHeader } from "@/pages/dashboard/components/site-header"
-import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
-import DemoPage from "@/app/users/page"
-import data from "./data.json"
-import { Outlet } from "react-router-dom"
+import { request } from "@/common/helpers/request";
+import { User, columns } from "./columns"
+import { DataTable } from "./data-table"
+import { useEffect, useState } from "react";
 
-export function Dashboard() {
+
+export default function Dashboard() {
+    const [users, setUsers] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    const fetchUsers = async () => {
+        try {
+            const usersResponse = await request('GET', 'http://api.ujik.web:8000/api/users');
+            setUsers(usersResponse.data)
+        } catch (error) {
+            console.error('Failed to fetch users:', error)
+        } finally {
+            setLoading(false)
+        }
+    }
+
+    useEffect(() => {
+        fetchUsers()
+    }, []);
+
+    if (loading) {
+        return <div>Loading...</div>
+    }
+
     return (
-        <SidebarProvider>
-            <AppSidebar variant="inset" />
-            <SidebarInset>
-                <SiteHeader />
-                <div className="flex flex-1 flex-col">
-                    <div className="@container/main flex flex-1 flex-col gap-2">
-                        <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
-                            <div className="px-4 lg:px-6">
-                                <Outlet />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </SidebarInset>
-        </SidebarProvider>
+        <div className="container mx-auto py-10">
+            <h1>halo</h1>
+            {/* <DataTable columns={columns(fetchUsers)} data={users} /> */}
+        </div>
     )
 }
