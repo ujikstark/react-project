@@ -14,6 +14,7 @@ import { User } from "./columns"
 import { toast } from "sonner"
 import { request } from "@/common/helpers/request"
 import { useNavigate } from "react-router-dom"
+import { useUsers } from "../contexts/users-context"
 
 interface UserActionsProps {
     user: User,
@@ -21,7 +22,8 @@ interface UserActionsProps {
 }
 
 export function UserActions({ user, fetchUsers }: UserActionsProps) {
-    const [open, setOpen] = useState(false);
+    // const [open, setOpen] = useState(false);
+    const { setOpen, setCurrentRow } = useUsers()
 
     const navigate = useNavigate();
 
@@ -42,7 +44,7 @@ export function UserActions({ user, fetchUsers }: UserActionsProps) {
             toast.error('Something went wrong.', { style: { backgroundColor: 'var(--destructive)' } });
 
         } finally {
-            setOpen(false)
+            // setOpen(false)
             fetchUsers();
         }
     }
@@ -60,8 +62,15 @@ export function UserActions({ user, fetchUsers }: UserActionsProps) {
                     <DropdownMenuLabel>Actions</DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem onClick={() => navigate(`/users/${user.id}`)}>Details</DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => navigate(`/users/${user.id}/edit`)}>Edit</DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => setOpen(true)}>Delete</DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => {
+                        setOpen('edit');
+                        setCurrentRow(user)
+
+                    }}>Edit</DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => {
+                        setCurrentRow(user)
+                        setOpen('delete') 
+                    }}>Delete</DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>
 

@@ -111,7 +111,12 @@ export function UsersActionDialog({ currentRow, open, onOpenChange }: Props) {
     })
 
     const onSubmit = async (values: UserForm) => {
-        await request('POST', 'http://api.ujik.web:8000/api/users', { ...values });
+
+        if (values.is_edit) await request('PUT', `http://api.ujik.web:8000/api/users/${currentRow?.id}`, { ...values });
+
+        else await request('POST', 'http://api.ujik.web:8000/api/users', { ...values });
+
+
 
         form.reset()
         showSubmittedData(values)

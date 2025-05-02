@@ -1,5 +1,4 @@
 import UserPage from "@/pages/users";
-import UserEdit from "@/app/users/user-edit";
 import { DashboardLayout } from "@/components/layouts/dashboard-layout";
 import { PrivateRoute } from "@/components/private-route";
 import { Index } from "@/pages";
@@ -15,7 +14,6 @@ export const routes = (
             <Route element={<DashboardLayout />}>
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/users" element={<UserPage />} />
-                <Route path="/users/:id/edit" element={<UserEdit />} />
 
             </Route>
         </Route>

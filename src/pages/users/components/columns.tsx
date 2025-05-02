@@ -8,12 +8,9 @@ import { ColumnDef } from "@tanstack/react-table"
 import { MoreHorizontal, ArrowUpDown } from "lucide-react"
 import { useState } from "react"
 import { UserActions } from "./user-actions"
+import { User } from "../data/schema"
 
-export type User = {
-    id: number
-    name: string
-    email: string
-}
+
 
 export const columns = (fetchUsers: () => void): ColumnDef<User>[] => [
     {
@@ -60,7 +57,7 @@ export const columns = (fetchUsers: () => void): ColumnDef<User>[] => [
         id: "actions",
         cell: ({ row }) => {
             const user = row.original
-            return <UserActions user={user} fetchUsers={fetchUsers}  />
+            return <UserActions user={user} fetchUsers={fetchUsers} />
         },
     },
 ]
