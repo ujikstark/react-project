@@ -60,12 +60,12 @@ export function UserActions({ user, fetchUsers }: UserActionsProps) {
                     <DropdownMenuLabel>Actions</DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem onClick={() => navigate(`/users/${user.id}`)}>Details</DropdownMenuItem>
-                    <DropdownMenuItem>Edit</DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => navigate(`/users/${user.id}/edit`)}>Edit</DropdownMenuItem>
                     <DropdownMenuItem onClick={() => setOpen(true)}>Delete</DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>
 
-            <AlertDialog open={open} onOpenChange={setOpen}>
+            {/* <AlertDialog open={open} onOpenChange={setOpen}>
                 <AlertDialogContent>
                     <AlertDialogHeader>
                         <AlertDialogTitle>Are you sure?</AlertDialogTitle>
@@ -84,7 +84,7 @@ export function UserActions({ user, fetchUsers }: UserActionsProps) {
                         </AlertDialogAction>
                     </AlertDialogFooter>
                 </AlertDialogContent>
-            </AlertDialog>
+            </AlertDialog> */}
         </>
     )
 }
