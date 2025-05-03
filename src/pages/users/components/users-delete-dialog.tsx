@@ -8,6 +8,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { ConfirmDialog } from '@/components/confirm-dialog'
 import { User } from '../data/schema'
+import { request } from '@/common/helpers/request'
 
 interface Props {
   open: boolean
@@ -18,10 +19,10 @@ interface Props {
 export function UsersDeleteDialog({ open, onOpenChange, currentRow }: Props) {
   const [value, setValue] = useState('')
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     if (value.trim() !== currentRow.email) return
 
-    await request()
+    await request('DELETE', `http://api.ujik.web:8000/api/users/${currentRow.id}`);
     onOpenChange(false)
     showSubmittedData(currentRow, 'The following user has been deleted:')
   }
