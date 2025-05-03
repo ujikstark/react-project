@@ -49,8 +49,8 @@ const data = {
       icon: IconListDetails,
     },
     {
-      title: "Analytics",
-      url: "#",
+      title: "Roles",
+      url: "/roles",
       icon: IconChartBar,
     },
     {

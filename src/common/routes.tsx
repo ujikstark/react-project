@@ -5,6 +5,7 @@ import { Index } from "@/pages";
 import { authenticationRoutes } from "@/pages/authentication/routes";
 import Dashboard from "@/pages/dashboard/dashboard";
 import { Route, Routes } from "react-router-dom";
+import Roles from "@/pages/roles";
 
 export const routes = (
     <Routes>
@@ -14,6 +15,7 @@ export const routes = (
             <Route element={<DashboardLayout />}>
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/users" element={<UserPage />} />
+                <Route path="/roles" element={<Roles />} />
 
             </Route>
         </Route>

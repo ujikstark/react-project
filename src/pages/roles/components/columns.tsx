@@ -3,13 +3,13 @@
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import { ColumnDef } from "@tanstack/react-table"
-import { MoreHorizontal, ArrowUpDown } from "lucide-react"
-import { UserActions } from "./user-actions"
-import { User } from "../data/schema"
+import { ArrowUpDown } from "lucide-react"
+import { Role } from "../data/schema"
+import { RoleActions } from "./role-actions"
 
 
 
-export const columns = (fetchUsers: () => void): ColumnDef<User>[] => [
+export const columns = (fetchRoles: () => void): ColumnDef<Role>[] => [
     {
         id: "select",
         header: ({ table }) => (
@@ -37,24 +37,25 @@ export const columns = (fetchUsers: () => void): ColumnDef<User>[] => [
         header: "Name",
     },
     {
-        accessorKey: "email",
-        header: ({ column }) => {
-            return (
-                <Button
-                    variant="ghost"
-                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-                >
-                    Email
-                    <ArrowUpDown className="ml-2 h-4 w-4" />
-                </Button>
-            )
-        },
+        accessorKey: "permissions",
+        header: "Permissions",
+        cell: ({ row }) => {
+            const role = row.original;
+
+            const permissions = role.permissions.map(element => {
+                return element.name
+            });
+
+            return <span>{permissions.toString()}</span>
+
+        }
     },
+
     {
         id: "actions",
         cell: ({ row }) => {
-            const user = row.original
-            return <UserActions user={user} fetchUsers={fetchUsers} />
+            const role = row.original
+            return <RoleActions role={role} fetchRoles={fetchRoles} />
         },
     },
 ]
