@@ -7,7 +7,11 @@ import { User } from "@/common/interfaces/user";
 import { UserRegisterForm } from "../../data/schema";
 import { useUserUtilities } from "../../hooks/useUserUtilities";
 import { CreateUserContext } from "../create";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
+import { ValidationBag } from "@/common/interfaces/validation-bag";
+import { AxiosError } from "axios";
+import { useHandleCreate } from "../../hooks/useHandleCreate";
 
 
 
@@ -19,12 +23,18 @@ export default function CreatePage() {
     const context: CreateUserContext = useOutletContext();
     const {
         user,
-        errors
+        // errors
     } = context;
 
     const {
         handleChange,
     } = useUserUtilities();
+
+    const [errors, setErrors] = useState<ValidationBag>();
+
+
+    const createUser = useHandleCreate({ setErrors });
+
 
     useEffect(() => {
         handleChange('name', '');
@@ -34,21 +44,9 @@ export default function CreatePage() {
 
     }, [])
 
-    const createUser = async (user: User) => {
-
-
-        await request('POST', 'http://api.ujik.web:8000/api/users', user);
-
-
-        // setIsFormBusy(false);
-        navigate('/users')
-
-        // showSubmittedData(values)
-        // onOpenChange(false)
-    }
 
     return (
 
-        <UserDetails user={user} mode="create" handleChange={handleChange} errors={errors} onSaveClick={() => createUser(user)} />
+        <UserDetails user={user} mode="create" handleChange={handleChange} errors={errors} onSaveClick={() => createUser(user as User)} />
     )
 }

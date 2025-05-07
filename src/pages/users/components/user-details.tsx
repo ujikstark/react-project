@@ -24,7 +24,7 @@ export default function UserDetails(props: Props) {
     const showPasswordFields = mode === 'create' || mode === 'change-password';
 
     return (
-        <div id="user-form" className="space-y-4 p-0.5">
+        <form id="user-form" className="space-y-4 p-0.5">
             {showUserInfo && (
                 <>
                     <div className="grid gap-2">
@@ -98,6 +98,6 @@ export default function UserDetails(props: Props) {
             >
                 Save changes
             </Button>
-        </div>
+        </form>
     );
 }

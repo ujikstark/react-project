@@ -4,7 +4,8 @@ import { Outlet, useParams } from "react-router-dom";
 import { userAtom } from "../common/atom";
 import { User } from "@/common/interfaces/user";
 import { ValidationBag } from "@/common/interfaces/validation-bag";
-import { Dispatch, SetStateAction, useEffect } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useHandleCreate } from "../hooks/useHandleCreate";
 
 export type ChangeHandler = <T extends keyof User>(
     property: T,
@@ -27,7 +28,9 @@ export default function Create() {
     ];
 
     const [user, setUser] = useAtom(userAtom);
+    const [errors, setErrors] = useState<ValidationBag>();
 
+    const save = useHandleCreate({ setErrors });
 
     return (
         <>
@@ -35,7 +38,8 @@ export default function Create() {
                 <Outlet
                     context={{
                         user,
-                        setUser
+                        setUser,
+                        errors
                     }}
                 />
             </DashboardLayout>
