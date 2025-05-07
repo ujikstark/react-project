@@ -18,12 +18,11 @@ import { useUsers } from "../contexts/users-context"
 
 interface UserActionsProps {
     user: User,
-    fetchUsers: () => void;
+    // fetchUsers: () => void;
 }
 
-export function UserActions({ user, fetchUsers }: UserActionsProps) {
-    // const [open, setOpen] = useState(false);
-    const { setOpen, setCurrentRow } = useUsers()
+export function UserActions({ user }: UserActionsProps) {
+    const [open, setOpen] = useState(false);
 
     const navigate = useNavigate();
 
@@ -45,7 +44,7 @@ export function UserActions({ user, fetchUsers }: UserActionsProps) {
 
         } finally {
             // setOpen(false)
-            fetchUsers();
+            // fetchUsers();
         }
     }
 
@@ -61,20 +60,21 @@ export function UserActions({ user, fetchUsers }: UserActionsProps) {
                 <DropdownMenuContent align="end">
                     <DropdownMenuLabel>Actions</DropdownMenuLabel>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem onClick={() => navigate(`/users/${user.id}`)}>Details</DropdownMenuItem>
                     <DropdownMenuItem onClick={() => {
-                        setOpen('edit');
-                        setCurrentRow(user)
+                        // setOpen('edit');
+                        navigate('/users/' + user.id + '/edit')
+
+                        // setCurrentRow(user)
 
                     }}>Edit</DropdownMenuItem>
                     <DropdownMenuItem onClick={() => {
-                        setCurrentRow(user)
-                        setOpen('delete') 
+                        // setCurrentRow(user)
+                        setOpen(true);
                     }}>Delete</DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>
 
-            {/* <AlertDialog open={open} onOpenChange={setOpen}>
+            <AlertDialog open={open} onOpenChange={setOpen}>
                 <AlertDialogContent>
                     <AlertDialogHeader>
                         <AlertDialogTitle>Are you sure?</AlertDialogTitle>
@@ -93,7 +93,7 @@ export function UserActions({ user, fetchUsers }: UserActionsProps) {
                         </AlertDialogAction>
                     </AlertDialogFooter>
                 </AlertDialogContent>
-            </AlertDialog> */}
+            </AlertDialog>
         </>
     )
 }

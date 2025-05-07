@@ -9,13 +9,8 @@ import axios from 'axios';
 import { request } from '@/common/helpers/request';
 import { useNavigate } from "react-router-dom"
 import { Toaster } from '@/components/ui/sonner';
+import { User } from '@/common/interfaces/user';
 
-type User = {
-    id: number;
-    name: string;
-    email: string;
-    // Add more fields if needed
-};
 
 type AuthContextType = {
     user: User | null;

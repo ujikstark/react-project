@@ -31,23 +31,21 @@ export default function Users() {
     }
 
     return (
-        <UsersProvider>
 
-            <div className="container mx-auto py-4">
-                <div className='mb-2 flex flex-wrap items-center justify-between space-y-2'>
-                    <div>
-                        <h2 className='text-2xl font-bold tracking-tight'>User List</h2>
-                        <p className='text-muted-foreground'>
-                            Manage your users and their roles here.
-                        </p>
-                    </div>
-                    <UsersPrimaryButtons />
+        <div className="container mx-auto py-4">
+            <div className='mb-2 flex flex-wrap items-center justify-between space-y-2'>
+                <div>
+                    <h2 className='text-2xl font-bold tracking-tight'>User List</h2>
+                    <p className='text-muted-foreground'>
+                        Manage your users and their roles here.
+                    </p>
                 </div>
-
-                <DataTable columns={columns(fetchUsers)} data={users} />
-                <UsersDialogs />
-
+                <UsersPrimaryButtons />
             </div>
-        </UsersProvider>
+
+            <DataTable columns={columns(fetchUsers)} data={users} />
+            {/* <UsersDialogs /> */}
+
+        </div>
     )
 }

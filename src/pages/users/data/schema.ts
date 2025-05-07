@@ -9,7 +9,19 @@ const userSchema = z.object({
 })
 export type User = z.infer<typeof userSchema>
 
-export const formSchema = z
+export const editUserSchema = z
+    .object({
+        name: z.string().min(1, { message: 'First Name is required.' }),
+        email: z
+            .string()
+            .min(1, { message: 'Email is required.' })
+            .email({ message: 'Email is invalid.' }),
+        // password: z.string().transform((pwd) => pwd.trim()),
+        // password_confirmation: z.string().transform((pwd) => pwd.trim()),
+        is_edit: z.boolean(),
+    })
+
+export const newUserSchema = z
     .object({
         name: z.string().min(1, { message: 'First Name is required.' }),
         email: z
@@ -63,4 +75,5 @@ export const formSchema = z
             }
         }
     })
-export type UserForm = z.infer<typeof formSchema>
+export type UserEditForm = z.infer<typeof editUserSchema>
+export type UserRegisterForm = z.infer<typeof newUserSchema>
