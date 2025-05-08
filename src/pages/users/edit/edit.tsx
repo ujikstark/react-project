@@ -7,6 +7,8 @@ import { request } from "@/common/helpers/request";
 import { Dispatch, SetStateAction } from "react";
 import { ValidationBag } from "@/common/interfaces/validation-bag";
 import { useUserUtilities } from "../hooks/useUserUtilities";
+import { toast } from "sonner";
+import { AxiosError } from "axios";
 
 
 export interface Context {
@@ -29,17 +31,21 @@ export default function Edit() {
     } = useUserUtilities();
 
     const updateUser = async (user: User) => {
-        // setIsFormBusy(true);
 
-        await request('PUT', `http://api.ujik.web:8000/api/users/${user?.id}`, user);
+        request('PUT', `http://api.ujik.web:8000/api/users/${user?.id}`, user).then(() => {
+            toast.success('Success!')
+            navigate('/users')
+        }).catch((error: AxiosError<ValidationBag>) => {
+            if (error.response?.status === 422) {
+                // const errorMessages = error.response.data;
+
+                // setErrors(errorMessages);
+            } else {
+                toast.warning('Error!')
+            }
+        });
 
 
-        // form.reset()
-        // setIsFormBusy(false);
-        navigate('/users')
-
-        // showSubmittedData(values)
-        // onOpenChange(false)
     }
 
 

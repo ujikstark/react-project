@@ -24,7 +24,10 @@ export default function UserDetails(props: Props) {
     const showPasswordFields = mode === 'create' || mode === 'change-password';
 
     return (
-        <form id="user-form" className="space-y-4 p-0.5">
+        <form id="user-form" className="space-y-4 p-0.5" onSubmit={(e) => {
+            e.preventDefault();
+            props.onSaveClick();
+        }}>
             {showUserInfo && (
                 <>
                     <div className="grid gap-2">
@@ -38,7 +41,7 @@ export default function UserDetails(props: Props) {
                             onChange={(e) => {
                                 handleChange('name', e.target.value)
                             }}
-                            required={mode === 'create'}
+                            required={mode === 'create' || mode === 'edit'}
                         />
                         {errors?.errors.name && <p className="text-red-500 text-sm">{errors.errors.name}</p>}
                     </div>
@@ -94,7 +97,7 @@ export default function UserDetails(props: Props) {
                 </>
             )}
 
-            <Button type="submit" form="user-form" onClick={props.onSaveClick}
+            <Button type="submit" form="user-form"
             >
                 Save changes
             </Button>
